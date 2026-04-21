@@ -9,7 +9,8 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const API_URL = 'https://YOUR-API-ENDPOINT-HERE'
+  // Use Vite dev proxy to avoid CORS during development
+  const API_URL = '/api/GET'
 
   const toNumber = (v) => {
     const n = parseFloat(String(v ?? '').replace(/[^\d.-]/g, ''))

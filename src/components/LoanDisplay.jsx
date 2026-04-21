@@ -10,7 +10,6 @@ import {
   TrendingUp,
   FileText,
   CreditCard,
-  Calendar,
   User
 } from 'lucide-react'
 
@@ -26,12 +25,16 @@ function LoanDisplay({ data, onReset }) {
 
   const formatDate = (dateString) => {
     if (!dateString) return 'Pending'
-    return new Date(dateString).toLocaleDateString('en-US', {
+    const date = new Date(dateString)
+    if (Number.isNaN(date.getTime())) return dateString
+    return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric'
     })
   }
+
+  const formatPercent = (value) => `${value}%`
 
   const getLoanStatusBadge = (status) => {
     switch (status) {
@@ -42,7 +45,7 @@ function LoanDisplay({ data, onReset }) {
     }
   }
 
-  const totalExposure = data.loans.reduce((sum, loan) => sum + loan.amount, 0)
+  const totalExposure = data.loans.reduce((sum, loan) => sum + (loan.totalAmount || loan.amount), 0)
   const approvedLoans = data.loans.filter((loan) => loan.status === 'approved').length
   const inProgressLoans = data.loans.filter((loan) => loan.status === 'in_progress').length
 
@@ -101,49 +104,59 @@ function LoanDisplay({ data, onReset }) {
                   </span>
                 </div>
                 <div className="sidebar-section">
-                  <span className="sidebar-label">Facility Amount</span>
+                  <span className="sidebar-label">Funding Amount</span>
                   <span className="sidebar-value amount">{formatCurrency(loan.amount)}</span>
                 </div>
                 <div className="sidebar-section">
-                  <span className="sidebar-label">Start Date</span>
-                  <span className="sidebar-value">{formatDate(loan.process.steps[0]?.date)}</span>
+                  <span className="sidebar-label">Total Amount</span>
+                  <span className="sidebar-value">{formatCurrency(loan.totalAmount)}</span>
                 </div>
                 <div className="sidebar-section">
-                  <span className="sidebar-label">Current Step</span>
-                  <span className="sidebar-value" style={{ fontSize: '0.9rem', color: '#92400e' }}>
-                    {loan.process.steps.find(s => s.status === 'in_progress')?.name.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Completed'}
-                  </span>
+                  <span className="sidebar-label">Remaining Amount</span>
+                  <span className="sidebar-value">{formatCurrency(loan.remainingAmount)}</span>
                 </div>
               </div>
 
-              {/* Content Area */}
               <div className="loan-content">
-                {/* Progress Bar */}
-                <div className="progress-section">
-                  <div className="progress-header">
-                    <Clock size={14} /> Application Progress
+                <div className="financial-grid">
+                  <div className="financial-card">
+                    <span className="financial-label">Monthly Installment</span>
+                    <strong>{formatCurrency(loan.installmentValue)}</strong>
                   </div>
-                  <div className="progress-bar">
-                    {loan.process.steps.map((step, index) => {
-                      const isCompleted = step.status === 'completed'
-                      const isCurrent = step.status === 'in_progress'
-                      const stepNumber = index + 1
-                      return (
-                        <div key={step.name} className={`progress-step ${isCompleted ? 'completed' : ''}`}>
-                          <div className={`step-indicator ${isCompleted ? 'completed' : isCurrent ? 'current' : 'pending'}`}>
-                            {isCompleted ? '✓' : stepNumber}
-                          </div>
-                          <span className={`step-label ${isCompleted || isCurrent ? '' : 'pending'}`}>
-                            {step.name.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                          </span>
-                          <span className="step-date">{formatDate(step.date)}</span>
-                        </div>
-                      )
-                    })}
+                  <div className="financial-card">
+                    <span className="financial-label">Installment Date</span>
+                    <strong>{formatDate(loan.installmentDate)}</strong>
+                  </div>
+                  <div className="financial-card">
+                    <span className="financial-label">Funding Duration</span>
+                    <strong>{loan.durationFunding} months</strong>
+                  </div>
+                  <div className="financial-card">
+                    <span className="financial-label">Total Installments</span>
+                    <strong>{loan.totalInstallments}</strong>
+                  </div>
+                  <div className="financial-card">
+                    <span className="financial-label">Profit Rate</span>
+                    <strong>{formatPercent(loan.profitRate)}</strong>
+                  </div>
+                  <div className="financial-card">
+                    <span className="financial-label">Profit Value</span>
+                    <strong>{formatCurrency(loan.profits)}</strong>
+                  </div>
+                  <div className="financial-card">
+                    <span className="financial-label">Down Payment</span>
+                    <strong>{formatCurrency(loan.downPayment)}</strong>
+                  </div>
+                  <div className="financial-card">
+                    <span className="financial-label">Down Payment %</span>
+                    <strong>{formatPercent(loan.downPaymentPercent)}</strong>
+                  </div>
+                  <div className="financial-card">
+                    <span className="financial-label">Product Price</span>
+                    <strong>{formatCurrency(loan.productPrice)}</strong>
                   </div>
                 </div>
 
-                {/* Info Sections */}
                 <div className="info-sections">
                   <div className="info-section">
                     <div className="info-section-header">

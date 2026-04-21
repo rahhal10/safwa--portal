@@ -221,105 +221,35 @@
   gap: 1.5rem;
 }
 
-/* Progress Bar */
-.progress-section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+/* Financial Grid */
+.financial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
 }
 
-.progress-header {
-  font-size: 0.75rem;
-  font-weight: 700;
+.financial-card {
+  background: #fafcfb;
+  border: 1px solid #e8f0ea;
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.financial-label {
+  color: #66786d;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #66786d;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.progress-bar {
-  display: flex;
-  align-items: center;
-  gap: 0;
-}
-
-.progress-step {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  position: relative;
-  padding: 0.5rem 0;
-}
-
-.progress-step:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  top: 16px;
-  left: calc(50% + 12px);
-  width: calc(100% - 24px);
-  height: 2px;
-  background: #e8f0ea;
-}
-
-.progress-step.completed:not(:last-child)::after {
-  background: #3f9250;
-}
-
-.step-indicator {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
+  letter-spacing: 0.08em;
   font-weight: 700;
-  position: relative;
-  z-index: 2;
 }
 
-.step-indicator.completed {
-  background: #3f9250;
-  color: white;
-}
-
-.step-indicator.current {
-  background: #f59e0b;
-  color: white;
-  animation: pulse-current 2s infinite;
-}
-
-.step-indicator.pending {
-  background: #e8f0ea;
-  border: 2px solid #d1dcd4;
-  color: #66786d;
-}
-
-.step-label {
-  font-size: 0.7rem;
-  font-weight: 600;
+.financial-card strong {
   color: #1f3126;
-  text-align: center;
-  max-width: 80px;
-  line-height: 1.2;
-}
-
-.step-label.pending {
-  color: #66786d;
-}
-
-.step-date {
-  font-size: 0.65rem;
-  color: #8ba390;
-}
-
-@keyframes pulse-current {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
-  50% { box-shadow: 0 0 0 4px rgba(245, 158, 11, 0); }
+  font-size: 1rem;
+  font-weight: 800;
 }
 
 /* Info Sections */
@@ -429,18 +359,6 @@
   border: 1px dashed #d8e4da;
 }
 
-/* Animations */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
-  }
-  50% {
-    opacity: 0.9;
-    box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
-  }
-}
-
 /* Responsive */
 @media (max-width: 900px) {
   .loan-card {
@@ -486,17 +404,8 @@
     padding: 1.25rem;
   }
 
-  .progress-bar {
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .progress-step {
-    min-width: 80px;
-  }
-
-  .progress-step:not(:last-child)::after {
-    display: none;
+  .financial-grid {
+    grid-template-columns: 1fr;
   }
 
   .info-sections {

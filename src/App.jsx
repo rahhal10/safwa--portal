@@ -9,7 +9,6 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  // Use Vite dev proxy to avoid CORS during development
   const API_URL = '/api/GET'
 
   const toNumber = (v) => {
@@ -26,35 +25,28 @@ function App() {
   const transformApiResponseToLoanData = (apiJson, formData) => {
     const items = Array.isArray(apiJson?.data) ? apiJson.data : []
     const loans = items.map((item, index) => {
-      const oc = String(item?.OTHER_CONDITIONS ?? '').trim()
-      const hasNoOtherConds = /لا\s?يوجد/i.test(oc)
-      const hasExceptions = Boolean(item?.EXCEPTIONS_POLICY || item?.EXCEPTIONS_POLICY_SPECIFY)
-      const status = !hasExceptions && hasNoOtherConds ? 'approved' : 'in_progress'
+      const status = 'approved'
 
       const baseSteps = ['application', 'document_verification', 'credit_check', 'initial_approval', 'final_approval']
       const installDate = item?.INSTALLMENT_DATE && item.INSTALLMENT_DATE !== '01/01/0001' ? item.INSTALLMENT_DATE : null
-      const steps = status === 'approved'
-        ? baseSteps.map((name, i) => ({ name, status: 'completed', date: i === baseSteps.length - 1 ? installDate : null }))
-        : baseSteps.map((name, i) => (
-            i < 2
-              ? { name, status: 'completed', date: null }
-              : i === 2
-                ? { name, status: 'in_progress', date: null }
-                : { name, status: 'pending', date: null }
-          ))
+      const steps = baseSteps.map((name, i) => ({ name, status: 'completed', date: i === baseSteps.length - 1 ? installDate : null }))
 
       const ct2040Lines = splitLines(item?.CT2040)
+      const ct2041Lines = splitLines(item?.CT2041)
+      const ct2042Lines = splitLines(item?.CT2042)
+      const ct2043Lines = splitLines(item?.CT2043)
+      const ct2044Lines = splitLines(item?.CT2044)
       const otherCondLines = splitLines(item?.OTHER_CONDITIONS)
-      const strengthFrom2040 = ct2040Lines.filter(l => /ايجاب|إيجاب|مواف|جيد|ممتاز/i.test(l))
-      const conditions = [...ct2040Lines.filter(l => !/ايجاب|إيجاب|مواف|جيد|ممتاز/i.test(l)), ...otherCondLines]
-
-      const painPoints = [
-        ...splitLines(item?.CT2041),
-        ...splitLines(item?.CT2043)
-      ]
       const strengthPoints = [
-        ...strengthFrom2040
+        ...ct2040Lines,
+        ...ct2042Lines,
+        ...ct2044Lines
       ]
+      const painPoints = [
+        ...ct2041Lines,
+        ...ct2043Lines
+      ]
+      const conditions = otherCondLines
 
       return {
         id: String(item?.APP_SEQ ?? index + 1),
@@ -154,7 +146,7 @@ function App() {
         <section className="workspace-shell">
           {!loanData ? (
             <CustomerForm
-              onSubmit={handleFormSubmit} 
+              onSubmit={handleFormSubmit}
               loading={loading}
               error={error}
             />

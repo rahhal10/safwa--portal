@@ -6,16 +6,15 @@ function CustomerForm({ onSubmit, loading, error }) {
   })
   const [validationErrors, setValidationErrors] = useState({})
 
-
   const validateForm = () => {
     const errors = {}
-    
+
     if (!formData.nationalId.trim()) {
       errors.nationalId = 'National ID is required'
     } else if (!/^\d{10,14}$/.test(formData.nationalId.replace(/\s/g, ''))) {
       errors.nationalId = 'National ID must be 10-14 digits'
     }
-    
+
     setValidationErrors(errors)
     return Object.keys(errors).length === 0
   }
@@ -37,7 +36,7 @@ function CustomerForm({ onSubmit, loading, error }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    
+
     if (validateForm()) {
       onSubmit({ nationalId: formData.nationalId })
     }
@@ -48,7 +47,7 @@ function CustomerForm({ onSubmit, loading, error }) {
       <div className="form-card">
         <h2>Customer Information</h2>
         <p>Enter customer identifiers to retrieve loan records.</p>
-        
+
         {error && (
           <div className="error-message">
             {error}

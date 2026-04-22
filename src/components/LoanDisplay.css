@@ -2,17 +2,12 @@
   width: 100%;
 }
 
-/* Header Section - Clean & Safe */
 .loan-header {
   background: #ffffff;
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 1rem;
   border: 1px solid #dfe7e1;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 2rem;
 }
 
 .customer-info h2 {
@@ -76,10 +71,15 @@
   box-shadow: 0 8px 18px rgba(63, 146, 80, 0.18);
 }
 
-/* Portfolio Summary */
+.loan-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
 .portfolio-summary {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -126,14 +126,12 @@
   font-weight: 800;
 }
 
-/* Loans Container */
 .loans-container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-/* Loan Card - Sidebar Layout */
 .loan-card {
   background: #ffffff;
   border-radius: 16px;
@@ -143,7 +141,6 @@
   grid-template-columns: 260px 1fr;
 }
 
-/* Sidebar */
 .loan-sidebar {
   background: linear-gradient(180deg, #f8faf9 0%, #f0f7f2 100%);
   border-right: 1px solid #e8f0ea;
@@ -213,7 +210,6 @@
   color: #4b5563;
 }
 
-/* Content Area */
 .loan-content {
   padding: 1.5rem;
   display: flex;
@@ -221,7 +217,6 @@
   gap: 1.5rem;
 }
 
-/* Financial Grid */
 .financial-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -252,7 +247,6 @@
   font-weight: 800;
 }
 
-/* Info Sections */
 .info-sections {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -289,7 +283,6 @@
   overflow-y: auto;
 }
 
-/* Points Lists */
 .points-list,
 .conditions-list {
   margin: 0;
@@ -359,7 +352,6 @@
   border: 1px dashed #d8e4da;
 }
 
-/* Responsive */
 @media (max-width: 900px) {
   .loan-card {
     grid-template-columns: 1fr;

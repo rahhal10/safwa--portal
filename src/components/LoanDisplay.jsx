@@ -3,9 +3,6 @@ import {
   Search, 
   Wallet, 
   CheckCircle2, 
-  Clock, 
-  XCircle, 
-  HelpCircle,
   AlertTriangle,
   TrendingUp,
   FileText,
@@ -38,16 +35,13 @@ function LoanDisplay({ data, onReset }) {
 
   const getLoanStatusBadge = (status) => {
     switch (status) {
-      case 'approved': return { text: 'Approved', class: 'approved', icon: <CheckCircle2 size={12} /> }
-      case 'in_progress': return { text: 'In Progress', class: 'in-progress', icon: <Clock size={12} /> }
-      case 'rejected': return { text: 'Rejected', class: 'rejected', icon: <XCircle size={12} /> }
-      default: return { text: 'Unknown', class: 'unknown', icon: <HelpCircle size={12} /> }
+      case 'approved': return { text: 'Accepted', class: 'approved', icon: <CheckCircle2 size={12} /> }
+      default: return { text: 'Accepted', class: 'approved', icon: <CheckCircle2 size={12} /> }
     }
   }
 
   const totalExposure = data.loans.reduce((sum, loan) => sum + (loan.totalAmount || loan.amount), 0)
   const approvedLoans = data.loans.filter((loan) => loan.status === 'approved').length
-  const inProgressLoans = data.loans.filter((loan) => loan.status === 'in_progress').length
 
   return (
     <div className="loan-display">
@@ -59,9 +53,6 @@ function LoanDisplay({ data, onReset }) {
             <p><CreditCard size={14} style={{ marginRight: '6px', verticalAlign: 'middle' }} /><strong>National ID:</strong> {data.customerInfo.nationalId}</p>
           </div>
         </div>
-        <button className="reset-btn" onClick={onReset}>
-          <Search size={16} style={{ marginRight: '6px', verticalAlign: 'middle' }} />New Search
-        </button>
       </div>
 
       <div className="portfolio-summary">
@@ -75,17 +66,16 @@ function LoanDisplay({ data, onReset }) {
         <div className="summary-card">
           <div className="summary-header">
             <CheckCircle2 size={18} className="summary-icon approved-icon" />
-            <span className="summary-label">Approved</span>
+            <span className="summary-label">Accepted</span>
           </div>
           <strong>{approvedLoans}</strong>
         </div>
-        <div className="summary-card">
-          <div className="summary-header">
-            <Clock size={18} className="summary-icon progress-icon" />
-            <span className="summary-label">In progress</span>
-          </div>
-          <strong>{inProgressLoans}</strong>
-        </div>
+      </div>
+
+      <div className="loan-actions">
+        <button className="reset-btn" onClick={onReset}>
+          <Search size={16} style={{ marginRight: '6px', verticalAlign: 'middle' }} />New Search
+        </button>
       </div>
 
       <div className="loans-container">
@@ -94,7 +84,6 @@ function LoanDisplay({ data, onReset }) {
           
           return (
             <div key={loan.id} className="loan-card">
-              {/* Sidebar */}
               <div className="loan-sidebar">
                 <div className="sidebar-section">
                   <span className="sidebar-label">Loan ID</span>

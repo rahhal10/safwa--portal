@@ -28,15 +28,15 @@ function App() {
       const status = 'approved'
 
       const baseSteps = ['application', 'document_verification', 'credit_check', 'initial_approval', 'final_approval']
-      const installDate = item?.INSTALLMENT_DATE && item.INSTALLMENT_DATE !== '01/01/0001' ? item.INSTALLMENT_DATE : null
+      const installDate = item?.installment_date && item.installment_date !== '01/01/0001' ? item.installment_date : null
       const steps = baseSteps.map((name, i) => ({ name, status: 'completed', date: i === baseSteps.length - 1 ? installDate : null }))
 
-      const ct2040Lines = splitLines(item?.CT2040)
-      const ct2041Lines = splitLines(item?.CT2041)
-      const ct2042Lines = splitLines(item?.CT2042)
-      const ct2043Lines = splitLines(item?.CT2043)
-      const ct2044Lines = splitLines(item?.CT2044)
-      const otherCondLines = splitLines(item?.OTHER_CONDITIONS)
+      const ct2040Lines = splitLines(item?.ct2040)
+      const ct2041Lines = splitLines(item?.ct2041)
+      const ct2042Lines = splitLines(item?.ct2042)
+      const ct2043Lines = splitLines(item?.ct2043)
+      const ct2044Lines = splitLines(item?.ct2044)
+      const otherCondLines = splitLines(item?.other_conditions)
       const strengthPoints = [
         ...ct2040Lines,
         ...ct2042Lines,
@@ -49,19 +49,19 @@ function App() {
       const conditions = otherCondLines
 
       return {
-        id: String(item?.APP_SEQ ?? index + 1),
-        amount: toNumber(item?.AMOUNT_FUNDING ?? item?.TOTAL_AMOUNT ?? 0),
-        totalAmount: toNumber(item?.TOTAL_AMOUNT ?? 0),
-        remainingAmount: toNumber(item?.REMAINING_AMOUNT ?? 0),
-        installmentValue: toNumber(item?.VALUE_INSTALLMENT ?? 0),
-        installmentDate: item?.INSTALLMENT_DATE && item?.INSTALLMENT_DATE !== '01/01/0001' ? item.INSTALLMENT_DATE : null,
-        durationFunding: toNumber(item?.DURATION_FUNDING ?? 0),
-        totalInstallments: toNumber(item?.TOTAL_INSTALLMENT ?? 0),
-        profitRate: toNumber(item?.PROFITS_BY ?? 0),
-        profits: toNumber(item?.PROFITS ?? 0),
-        downPayment: toNumber(item?.DOWNPAYMENT ?? 0),
-        downPaymentPercent: toNumber(item?.PREC_DOWNPAYMENT ?? 0),
-        productPrice: toNumber(item?.PRODUCT_PRICE ?? 0),
+        id: String(item?.app_seq ?? index + 1),
+        amount: toNumber(item?.amount_funding ?? item?.total_amount ?? 0),
+        totalAmount: toNumber(item?.total_amount ?? 0),
+        remainingAmount: toNumber(item?.remaining_amount ?? 0),
+        installmentValue: toNumber(item?.value_installment ?? 0),
+        installmentDate: item?.installment_date && item?.installment_date !== '01/01/0001' ? item.installment_date : null,
+        durationFunding: toNumber(item?.duration_funding ?? 0),
+        totalInstallments: toNumber(item?.total_installment ?? 0),
+        profitRate: toNumber(item?.profits_by ?? 0),
+        profits: toNumber(item?.profits ?? 0),
+        downPayment: toNumber(item?.downpayment ?? 0),
+        downPaymentPercent: toNumber(item?.prec_downpayment ?? item?.prec_downpaymen ?? 0),
+        productPrice: toNumber(item?.product_price ?? 0),
         status,
         process: { steps },
         painPoints,

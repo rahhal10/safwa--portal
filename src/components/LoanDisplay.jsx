@@ -6,7 +6,14 @@ import {
   TrendingUp,
   FileText,
   CreditCard,
-  User
+  User,
+  Shield,
+  Wrench,
+  Percent,
+  PiggyBank,
+  DollarSign,
+  Hash,
+  Layers
 } from 'lucide-react'
 
 function LoanDisplay({ data, onReset }) {
@@ -97,7 +104,7 @@ function LoanDisplay({ data, onReset }) {
             <div className="loan-content">
               <div className="financial-grid">
                 <div className="financial-card">
-                  <span className="financial-label">Monthly Installment</span>
+                  <span className="financial-label"><Hash size={12} style={{marginRight: '4px'}}/>Monthly Installment</span>
                   <strong>{formatCurrency(loan.installmentValue)}</strong>
                 </div>
                 <div className="financial-card">
@@ -113,15 +120,35 @@ function LoanDisplay({ data, onReset }) {
                   <strong>{loan.totalInstallment}</strong>
                 </div>
                 <div className="financial-card">
-                  <span className="financial-label">Profit Rate</span>
+                  <span className="financial-label"><Percent size={12} style={{marginRight: '4px'}}/>Profit Rate</span>
                   <strong>{loan.profitsBy}%</strong>
+                </div>
+                <div className="financial-card">
+                  <span className="financial-label">Total Profits</span>
+                  <strong>{formatCurrency(loan.profits)}</strong>
                 </div>
                 <div className="financial-card">
                   <span className="financial-label">Product Price</span>
                   <strong>{formatCurrency(loan.productPrice)}</strong>
                 </div>
                 <div className="financial-card">
-                  <span className="financial-label">Product Code</span>
+                  <span className="financial-label"><Shield size={12} style={{marginRight: '4px'}}/>Insurance</span>
+                  <strong>{formatCurrency(loan.insurance)}</strong>
+                </div>
+                <div className="financial-card">
+                  <span className="financial-label"><Wrench size={12} style={{marginRight: '4px'}}/>Maintenance</span>
+                  <strong>{formatCurrency(loan.maintenContract)}</strong>
+                </div>
+                <div className="financial-card">
+                  <span className="financial-label"><PiggyBank size={12} style={{marginRight: '4px'}}/>Amount Funding</span>
+                  <strong>{formatCurrency(loan.amountFunding)}</strong>
+                </div>
+                <div className="financial-card">
+                  <span className="financial-label"><Percent size={12} style={{marginRight: '4px'}}/>Downpayment %</span>
+                  <strong>{loan.precDownpayment}%</strong>
+                </div>
+                <div className="financial-card">
+                  <span className="financial-label"><Layers size={12} style={{marginRight: '4px'}}/>Product Code</span>
                   <strong>{loan.productCode}</strong>
                 </div>
                 <div className="financial-card">
@@ -132,12 +159,20 @@ function LoanDisplay({ data, onReset }) {
                   <span className="financial-label">Section Code</span>
                   <strong>{loan.sectionCode}</strong>
                 </div>
+                <div className="financial-card">
+                  <span className="financial-label">Row Num 2</span>
+                  <strong>{loan.rowNum2 || '-'}</strong>
+                </div>
+                <div className="financial-card">
+                  <span className="financial-label">Row Num 3</span>
+                  <strong>{loan.rowNum3 || '-'}</strong>
+                </div>
               </div>
 
               <div className="info-sections">
                 <div className="info-section">
                   <div className="info-section-header">
-                    <AlertTriangle size={14} /> Issues
+                    <AlertTriangle size={14} /> Issues (CT2043)
                   </div>
                   <div className="info-section-content">
                     {loan.painPoints.length > 0 ? (
@@ -156,7 +191,7 @@ function LoanDisplay({ data, onReset }) {
 
                 <div className="info-section">
                   <div className="info-section-header">
-                    <TrendingUp size={14} /> Strengths
+                    <TrendingUp size={14} /> Strengths (CT2040/42/44)
                   </div>
                   <div className="info-section-content">
                     {loan.strengthPoints.length > 0 ? (
@@ -175,7 +210,26 @@ function LoanDisplay({ data, onReset }) {
 
                 <div className="info-section">
                   <div className="info-section-header">
-                    <FileText size={14} /> Conditions
+                    <FileText size={14} /> CT2041 Notes
+                  </div>
+                  <div className="info-section-content">
+                    {loan.ct2041.length > 0 ? (
+                      <div className="points-list">
+                        <ul>
+                          {loan.ct2041.map((point, index) => (
+                            <li key={index} className="condition-item">{point}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : (
+                      <p className="no-points">No CT2041 notes</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="info-section info-section-full">
+                  <div className="info-section-header">
+                    <DollarSign size={14} /> Other Conditions
                   </div>
                   <div className="info-section-content">
                     {loan.conditions.length > 0 ? (

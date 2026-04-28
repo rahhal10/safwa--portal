@@ -23,13 +23,14 @@ function App() {
     .filter(t => t && t !== '.' && !/لا\s?يوجد/i.test(t))
 
   const transformApiResponseToLoanData = (apiJson, formData) => {
-    const items = Array.isArray(apiJson?.data) ? apiJson.data : []
+    const items = Array.isArray(apiJson?.Approvals?.Approval) ? apiJson.Approvals.Approval : []
     const loans = items.map((item) => {
-      const ct2040Lines = splitLines(item?.ct2040)
-      const ct2042Lines = splitLines(item?.ct2042)
-      const ct2043Lines = splitLines(item?.ct2043)
-      const ct2044Lines = splitLines(item?.ct2044)
-      const otherCondLines = splitLines(item?.other_conditions)
+      const ct2040Lines = splitLines(item?.CT2040)
+      const ct2041Lines = splitLines(item?.CT2041)
+      const ct2042Lines = splitLines(item?.CT2042)
+      const ct2043Lines = splitLines(item?.CT2043)
+      const ct2044Lines = splitLines(item?.CT2044)
+      const otherCondLines = splitLines(item?.OTHER_CONDITIONS)
       const strengthPoints = [
         ...ct2040Lines,
         ...ct2042Lines,
@@ -41,21 +42,29 @@ function App() {
       const conditions = otherCondLines
 
       return {
-        id: String(item?.app_seq),
-        installmentDate: item?.installment_date && item?.installment_date !== '01/01/0001' ? item.installment_date : null,
-        totalAmount: toNumber(item?.total_amount),
-        otherConditions: item?.other_conditions,
-        installmentValue: toNumber(item?.value_installment),
-        productPrice: toNumber(item?.product_price),
-        custId: item?.cust_id,
-        productCode: item?.product_code,
-        tabCode: item?.tab_code,
-        sectionCode: item?.section_code,
-        durationFunding: toNumber(item?.duration_funding),
-        totalInstallment: toNumber(item?.total_installment),
-        profitsBy: toNumber(item?.profits_by),
-        remainingAmount: toNumber(item?.remaining_amount),
-        downpayment: toNumber(item?.downpayment),
+        id: String(item?.APP_SEQ),
+        installmentDate: item?.INSTALLMENT_DATE && item?.INSTALLMENT_DATE !== '01/01/0001' ? item.INSTALLMENT_DATE : null,
+        totalAmount: toNumber(item?.TOTAL_AMOUNT),
+        otherConditions: item?.OTHER_CONDITIONS,
+        installmentValue: toNumber(item?.VALUE_INSTALLMENT),
+        productPrice: toNumber(item?.PRODUCT_PRICE),
+        custId: item?.CUST_ID,
+        productCode: item?.PRODUCT_CODE,
+        tabCode: item?.TAB_CODE,
+        sectionCode: item?.SECTION_CODE,
+        durationFunding: toNumber(item?.DURATION_FUNDING),
+        totalInstallment: toNumber(item?.TOTAL_INSTALLMENT),
+        profitsBy: toNumber(item?.PROFITS_BY),
+        remainingAmount: toNumber(item?.REMAINING_AMOUNT),
+        downpayment: toNumber(item?.DOWNPAYMENT),
+        rowNum2: item?.ROW_NUM2,
+        rowNum3: item?.ROW_NUM3,
+        insurance: toNumber(item?.INSURANCE),
+        maintenContract: toNumber(item?.MAINTEN_CONTRACT),
+        profits: toNumber(item?.PROFITS),
+        precDownpayment: toNumber(item?.PREC_DOWNPAYMENT),
+        amountFunding: toNumber(item?.AMOUNT_FUNDING),
+        ct2041: ct2041Lines,
         painPoints,
         strengthPoints,
         conditions
@@ -86,7 +95,7 @@ function App() {
         throw new Error(`HTTP ${res.status}`)
       }
       const json = await res.json()
-      if (!Array.isArray(json?.data)) {
+      if (!Array.isArray(json?.Approvals?.Approval)) {
         throw new Error('Unexpected API response')
       }
       const mapped = transformApiResponseToLoanData(json, formData)

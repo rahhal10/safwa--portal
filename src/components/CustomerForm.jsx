@@ -1,18 +1,41 @@
 import { useState } from 'react'
 
-function CustomerForm({ onSubmit, loading, error }) {
+function CustomerForm({ onSubmit, loading, error, lang }) {
   const [formData, setFormData] = useState({
     nationalId: ''
   })
   const [validationErrors, setValidationErrors] = useState({})
 
+  const t = {
+    en: {
+      title: 'Customer Information',
+      subtitle: 'Enter customer identifiers to retrieve loan records.',
+      nationalId: 'National ID Number',
+      required: 'National ID is required',
+      invalid: 'National ID must be 10-14 digits',
+      placeholder: 'Enter national ID (10-14 digits)',
+      search: 'Search Records',
+      processing: 'Processing...'
+    },
+    ar: {
+      title: 'معلومات العميل',
+      subtitle: 'أدخل معرفات العميل لاسترداد سجلات القروض.',
+      nationalId: 'الرقم الوطني',
+      required: 'الرقم الوطني مطلوب',
+      invalid: 'يجب أن يكون الرقم الوطني 10-14 رقم',
+      placeholder: 'أدخل الرقم الوطني (10-14 رقم)',
+      search: 'بحث السجلات',
+      processing: 'جاري المعالجة...'
+    }
+  }
+
   const validateForm = () => {
     const errors = {}
 
     if (!formData.nationalId.trim()) {
-      errors.nationalId = 'National ID is required'
+      errors.nationalId = t[lang].required
     } else if (!/^\d{10,14}$/.test(formData.nationalId.replace(/\s/g, ''))) {
-      errors.nationalId = 'National ID must be 10-14 digits'
+      errors.nationalId = t[lang].invalid
     }
 
     setValidationErrors(errors)
@@ -45,19 +68,19 @@ function CustomerForm({ onSubmit, loading, error }) {
   return (
     <div className="customer-form">
       <div className="form-card">
-        <h2>Customer Information</h2>
-        <p>Enter customer identifiers to retrieve loan records.</p>
+        <h2>{t[lang].title}</h2>
+        <p>{t[lang].subtitle}</p>
 
         {error && (
           <div className="error-message">
             {error}
           </div>
         )}
-        
+
         <form onSubmit={handleSubmit} className="loan-form">
           <div className="form-group">
             <label htmlFor="nationalId">
-              National ID Number
+              {t[lang].nationalId}
               <span className="required">*</span>
             </label>
             <input
@@ -66,7 +89,7 @@ function CustomerForm({ onSubmit, loading, error }) {
               name="nationalId"
               value={formData.nationalId}
               onChange={handleInputChange}
-              placeholder="Enter national ID (10-14 digits)"
+              placeholder={t[lang].placeholder}
               className={validationErrors.nationalId ? 'error' : ''}
               disabled={loading}
               maxLength="14"
@@ -77,20 +100,22 @@ function CustomerForm({ onSubmit, loading, error }) {
             )}
           </div>
 
-          <button 
-            type="submit" 
-            className="submit-btn"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <span className="spinner"></span>
-                Processing...
-              </>
-            ) : (
-              'Search Records'
-            )}
-          </button>
+          <div className="form-actions">
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span className="spinner"></span>
+                  {t[lang].processing}
+                </>
+              ) : (
+                t[lang].search
+              )}
+            </button>
+          </div>
         </form>
       </div>
     </div>

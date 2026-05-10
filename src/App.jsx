@@ -8,6 +8,7 @@ function App() {
   const [loanData, setLoanData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const [lang, setLang] = useState('en')
 
   const API_URL = '/api/getWFApproval'
 
@@ -117,6 +118,8 @@ function App() {
     setError(null)
   }
 
+  const toggleLang = () => setLang(prev => prev === 'en' ? 'ar' : 'en')
+
   return (
     <div className="app">
       <header className="portal-topbar">
@@ -129,6 +132,10 @@ function App() {
             </div>
           </div>
           <div className="topbar-meta">
+            <button className="lang-toggle" onClick={toggleLang}>
+              {lang === 'en' ? 'العربية' : 'English'}
+            </button>
+            <span className="topbar-divider"></span>
             <span className="topbar-status">Operational access</span>
             <span className="topbar-divider"></span>
             <span className="topbar-link">Retail finance</span>
@@ -139,8 +146,8 @@ function App() {
       <main className="app-main">
         <section className="workspace-header">
           <div className="workspace-title-block">
-            <span className="workspace-label">Loan servicing</span>
-            <h1>Customer loan records</h1>
+            <span className="workspace-label">{lang === 'en' ? 'Loan servicing' : 'خدمة القروض'}</span>
+            <h1>{lang === 'en' ? 'Customer loan records' : 'سجلات قروض العملاء'}</h1>
           </div>
         </section>
 
@@ -150,11 +157,13 @@ function App() {
               onSubmit={handleFormSubmit}
               loading={loading}
               error={error}
+              lang={lang}
             />
           ) : (
             <LoanDisplay
               data={loanData}
               onReset={handleReset}
+              lang={lang}
             />
           )}
         </section>

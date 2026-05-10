@@ -69,6 +69,23 @@
   font-weight: 600;
 }
 
+.lang-toggle {
+  background: transparent;
+  border: 1px solid #d9e3dc;
+  color: #3f9250;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lang-toggle:hover {
+  background: #f3f5f3;
+  border-color: #3f9250;
+}
+
 .app-main {
   padding: 1rem 2rem 2rem;
   max-width: 1280px;
@@ -244,6 +261,13 @@
   opacity: 0.7;
   cursor: not-allowed;
   transform: none;
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
 }
 
 .spinner {

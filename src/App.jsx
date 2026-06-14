@@ -65,6 +65,7 @@ function App() {
         profits: toNumber(item?.PROFITS),
         precDownpayment: toNumber(item?.PREC_DOWNPAYMENT),
         amountFunding: toNumber(item?.AMOUNT_FUNDING),
+        guaranteeType: item?.ADDIT_1_DESC || null,
         ct2041: ct2041Lines,
         painPoints,
         strengthPoints,
@@ -101,13 +102,13 @@ function App() {
       }
       const mapped = transformApiResponseToLoanData(json, formData)
       if (!mapped.loans.length) {
-        setError('No records found for this National ID')
+        setError('No guarantee records found for this National ID')
         setLoanData(null)
         return
       }
       setLoanData(mapped)
     } catch (err) {
-      setError('Failed to fetch loan data. Please try again.')
+      setError('Failed to fetch guarantee data. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -127,7 +128,7 @@ function App() {
           <div className="brand-lockup">
             <img src={logo} alt="Safwa Islamic Bank" className="brand-logo" />
             <div className="brand-text">
-              <span className="brand-name">Loan Portal</span>
+              <span className="brand-name">Guarantees Portal</span>
               <span className="brand-subtitle">Internal operations workspace</span>
             </div>
           </div>
@@ -146,8 +147,8 @@ function App() {
       <main className="app-main">
         <section className="workspace-header">
           <div className="workspace-title-block">
-            <span className="workspace-label">{lang === 'en' ? 'Loan servicing' : 'خدمة القروض'}</span>
-            <h1>{lang === 'en' ? 'Customer loan records' : 'سجلات قروض العملاء'}</h1>
+            <span className="workspace-label">{lang === 'en' ? 'Guarantee servicing' : 'خدمة التمويلات'}</span>
+            <h1>{lang === 'en' ? 'Customer guarantee records' : 'سجلات تمويلات العملاء'}</h1>
           </div>
         </section>
 

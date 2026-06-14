@@ -9,7 +9,7 @@ function CustomerForm({ onSubmit, loading, error, lang }) {
   const t = {
     en: {
       title: 'Customer Information',
-      subtitle: 'Enter customer identifiers to retrieve loan records.',
+      subtitle: 'Enter customer identifiers to retrieve guarantee records.',
       nationalId: 'National ID Number',
       required: 'National ID is required',
       invalid: 'National ID must be 10-14 digits',
@@ -19,7 +19,7 @@ function CustomerForm({ onSubmit, loading, error, lang }) {
     },
     ar: {
       title: 'معلومات العميل',
-      subtitle: 'أدخل معرفات العميل لاسترداد سجلات القروض.',
+      subtitle: 'أدخل معرفات العميل لاسترداد سجلات التمويلات.',
       nationalId: 'الرقم الوطني',
       required: 'الرقم الوطني مطلوب',
       invalid: 'يجب أن يكون الرقم الوطني 10-14 رقم',

@@ -154,12 +154,15 @@ function LoanDisplay({ data, onReset, lang }) {
 
     const blocks = data.loans.map((loan, idx) => `
       <div class="guarantee-block">
-        <div class="guarantee-title">ملخص تمويل رقم ${loan.id}</div>
+        <div class="guarantee-title">
+          <div>ملخص تمويل – ${loan.refNumber || loan.id}</div>
+          ${data.customerInfo.cusNameAr ? `<div style="font-size:11px;font-weight:normal;margin-top:3px;color:#3a5c47;">اسم المتعامل: ${data.customerInfo.cusNameAr}</div>` : ''}
+        </div>
 
         ${section('المعلومات الأساسية :', `<table>
-          ${row('الرقم المرجعي', loan.refNumber || '—', 'رقم العميل', loan.custId)}
-          ${row('نوع التمويل', loan.guaranteeType || '—', 'رمز المنتج', loan.productCode)}
-          ${row('رمز التبويب', loan.tabCode, 'رمز القسم', loan.sectionCode)}
+          ${row('اسم المتعامل', data.customerInfo.cusNameAr || '—', 'رقم العميل', loan.custId)}
+          ${row('الرقم المرجعي', loan.refNumber || '—', 'نوع التمويل', loan.guaranteeType || '—')}
+          ${row('رمز المنتج', loan.productCode, 'رمز التبويب', loan.tabCode)}
         </table>`)}
 
         ${section('معلومات التمويل :', `<table>
@@ -397,6 +400,12 @@ function LoanDisplay({ data, onReset, lang }) {
         {data.loans.map((loan) => (
           <div key={loan.id} className="loan-card">
             <div className="loan-sidebar">
+              {data.customerInfo.cusNameAr && (
+                <div className="sidebar-section">
+                  <span className="sidebar-label">{t[lang].customerName}</span>
+                  <span className="sidebar-value" style={{ fontSize: '0.95rem' }}>{data.customerInfo.cusNameAr}</span>
+                </div>
+              )}
               <div className="sidebar-section">
                 <span className="sidebar-label">{t[lang].refNumber}</span>
                 <span className="sidebar-value" style={{ fontSize: '0.85rem', wordBreak: 'break-all' }}>{loan.refNumber || '—'}</span>

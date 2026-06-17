@@ -66,6 +66,7 @@ function App() {
         precDownpayment: toNumber(item?.PREC_DOWNPAYMENT),
         amountFunding: toNumber(item?.AMOUNT_FUNDING),
         guaranteeType: item?.ADDIT_1_DESC || null,
+        refNumber: item?.ADDIT_1_FULL || null,
         ct2041: ct2041Lines,
         painPoints,
         strengthPoints,
@@ -75,11 +76,13 @@ function App() {
 
     return {
       customerInfo: {
-        nationalId: formData.nationalId
+        nationalId: formData.nationalId,
+        cusNameAr: items[0]?.cus_name_ar || null
       },
       loans
     }
   }
+
 
   const handleFormSubmit = async (formData) => {
     setLoading(true)

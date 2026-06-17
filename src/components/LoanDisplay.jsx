@@ -58,7 +58,9 @@ function LoanDisplay({ data, onReset, lang }) {
       noCt2041: 'No CT2041 notes',
       noConditions: 'No special conditions',
       exportPdf: 'Export PDF',
-      guaranteeType: 'Guarantee Type'
+      guaranteeType: 'Guarantee Type',
+      customerName: 'Customer Name',
+      refNumber: 'Reference Number'
     },
     ar: {
       title: 'سجلات تمويلات العميل',
@@ -98,7 +100,9 @@ function LoanDisplay({ data, onReset, lang }) {
       noCt2041: 'لا توجد ملاحظات CT2041',
       noConditions: 'لا توجد شروط خاصة',
       exportPdf: 'تصدير PDF',
-      guaranteeType: 'نوع التمويل'
+      guaranteeType: 'نوع التمويل',
+      customerName: 'اسم المتعامل',
+      refNumber: 'الرقم المرجعي'
     }
   }
 
@@ -153,7 +157,7 @@ function LoanDisplay({ data, onReset, lang }) {
         <div class="guarantee-title">ملخص تمويل رقم ${loan.id}</div>
 
         ${section('المعلومات الأساسية :', `<table>
-          ${row('رقم التمويل', loan.id, 'رقم العميل', loan.custId)}
+          ${row('الرقم المرجعي', loan.refNumber || '—', 'رقم العميل', loan.custId)}
           ${row('نوع التمويل', loan.guaranteeType || '—', 'رمز المنتج', loan.productCode)}
           ${row('رمز التبويب', loan.tabCode, 'رمز القسم', loan.sectionCode)}
         </table>`)}
@@ -303,6 +307,10 @@ function LoanDisplay({ data, onReset, lang }) {
   </div>
 
   <div class="customer-row">
+    <div class="lbl">اسم المتعامل</div>
+    <div class="val">${data.customerInfo.cusNameAr || '—'}</div>
+  </div>
+  <div class="customer-row">
     <div class="lbl">الرقم الوطني</div>
     <div class="val">${data.customerInfo.nationalId}</div>
   </div>
@@ -352,6 +360,9 @@ function LoanDisplay({ data, onReset, lang }) {
           <p className="customer-subtitle">{t[lang].subtitle}</p>
           <div className="customer-details">
             <p><CreditCard size={14} style={{ marginRight: '6px', verticalAlign: 'middle' }} /><strong>{t[lang].nationalId}:</strong> {data.customerInfo.nationalId}</p>
+            {data.customerInfo.cusNameAr && (
+              <p><User size={14} style={{ marginRight: '6px', verticalAlign: 'middle' }} /><strong>{t[lang].customerName}:</strong> {data.customerInfo.cusNameAr}</p>
+            )}
           </div>
         </div>
       </div>
@@ -387,8 +398,8 @@ function LoanDisplay({ data, onReset, lang }) {
           <div key={loan.id} className="loan-card">
             <div className="loan-sidebar">
               <div className="sidebar-section">
-                <span className="sidebar-label">{t[lang].loanId}</span>
-                <span className="sidebar-value">{loan.id}</span>
+                <span className="sidebar-label">{t[lang].refNumber}</span>
+                <span className="sidebar-value" style={{ fontSize: '0.85rem', wordBreak: 'break-all' }}>{loan.refNumber || '—'}</span>
               </div>
               {loan.guaranteeType && (
                 <div className="sidebar-section">
